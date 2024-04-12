@@ -1,9 +1,11 @@
 import { createSSRApp } from "vue";
-import { createPinia } from 'pinia'
+import * as Pinia from "pinia";
+import piniaPersist from "pinia-plugin-persist-uni";
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import App from "./App.vue";
 
-const pinia = createPinia()
+const pinia = Pinia.createPinia()
+// pinia.use(piniaPersist)
 pinia.use(piniaPluginPersistedstate)
 
 export function createApp() {
@@ -11,5 +13,6 @@ export function createApp() {
   app.use(pinia)
   return {
     app,
+    Pinia
   };
 }

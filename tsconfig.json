@@ -3,6 +3,7 @@
   "compilerOptions": {
     "sourceMap": true,
     "baseUrl": ".",
+    "ignoreDeprecations": "5.0", // 消去 TypeScript 5.5 之前使错误消息
     "paths": {
       "@/*": ["src/*"],
       "components/*": ["src/components/*"],
@@ -13,7 +14,15 @@
       "views/*": ["src/views/*"]
     },
     "lib": ["esnext", "dom"],
-    "types": ["@dcloudio/types", "pinia-plugin-persist-uni"]
+    "types": [
+      "@dcloudio/types", // uni-app API 类型
+      "@uni-helper/uni-app-types", // uni-app 组件类型
+      "pinia-plugin-persist-uni" // pinia持久化插件
+    ]
+  },
+  // vue 编译器类型，校验标签类型
+  "vueCompilerOptions": {
+    "nativeTags": ["block","component","template","slot"],
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
 }
