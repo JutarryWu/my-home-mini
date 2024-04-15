@@ -1,52 +1,25 @@
-import { defineStore } from "pinia";
-import { ref } from "vue";
+import { defineStore } from "pinia"
 
 type AppStoreType = {
-    count: number;
+  count: number;
 };
 
-// 第一种写法
-export const useAppStore1 = defineStore({
-    id: "appStore",
-    state: (): AppStoreType => ({
-        count: 0,
-    }),
-});
-
-// 第二种写法（推荐）
-export const useAppStore2 = defineStore("appStore", {
-    state: (): AppStoreType => ({
-        count: 0,
-    }),
-    actions: {
-        addCar(item: any) {}
-    },
-    persist: true
-});
-// 第三种写法
-export const useAppStore3 = defineStore("appStore", () => {
-    const count = ref(0);
-
-    return {
-        count,
-    };
-},
-{
-  // 配置持久化
+export const useAppStore = defineStore("appStore", {
   persist: {
-    enabled: true,
-    // 调整为兼容多端的API
-    storage: {
-      setItem(key: string, value: string) {
-        uni.setStorageSync(key, value) 
-      },
-      getItem(key: string) {
-        return uni.getStorageSync(key) 
-      },
-    },
+    enabled: true, // 开启持久化
+    strategies: [
+      {
+        key: "appStore", // 持久化的key
+        storage: window?.localStorage // 持久化的方式，可以选择sessionStorage
+      }
+    ]
   },
-});
-
-
-// 参考这个文件
-// https://blog.csdn.net/weixin_42614447/article/details/134335447
+  state: (): AppStoreType => ({
+    count: 0
+  }),
+  actions: {
+    addCar(num: number) {
+      this.count += num
+    }
+  }
+})
